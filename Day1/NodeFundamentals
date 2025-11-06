@@ -1,0 +1,90 @@
+----Assignment1----------
+import { writeFile } from "fs";
+
+const filename = process.argv[2];
+const content = process.argv[3];
+
+  if (!filename || !content) {
+    console.log('Please provide a filename and content');
+    console.log('EXAMPLE: node filewriter.js output.txt "Hello world"');
+    process.exit(1);
+  }
+    writeFile(filename, content, (err)=>{
+        if(err){
+            console.error('Error writing file:', err);
+            return;
+        }
+    console.log(`File "${filename}" created successfully`);
+ 
+});
+
+-----Assignment2 -----------
+import http from "http";
+import fs from "fs";
+const server=http.createServer((req,res)=> {
+    fs.readFile("data.json","utf-8",(err,data) => {
+        if(err){
+            res.writeHead(500,{"Content-Type":"application/json"});
+            res.end(JSON,stringify({error:"Error reading JSON file"}));
+            return;
+        }
+        res.writeHead(200,{"Content-Type":"application/json"});
+        res.end(data);
+    });
+});
+server.listen(4000,()=>{
+    console.log("Server running at http://localhost:4000");
+})
+
+-------Assignment 3-----------
+import dayjs from "dayjs";
+const now=dayjs().format("YYYY-MM-DD HH:mm:ss");
+console.log(`Current time is:${now}`);
+-----------Assignment 4----------
+import http from "http";
+import fs from "fs";
+import path from "path";
+
+const server = http.createServer((req, res) => {
+  const filePath = path.resolve("index.html");
+
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      res.writeHead(500, { "Content-Type": "text/plain" });
+      res.end("Error loading HTML file.");
+      return;
+    }
+
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(data);
+  });
+});
+server.listen(3000, () => {
+  console.log("Server running at http://localhost:3000");
+});
+---------------Assignment 5_1-------------
+
+import axios from "axios";
+const url="http://jsonplaceholder.typicode.com/posts/1";
+async function fetchData(){
+    try {
+        const response=await axios.get(url);
+        console.log("Fetched Data:");
+        console.log(response.data);
+    }catch(error){
+        console.error("error fetching API data:",error.message);
+    }
+    }
+fetchData();
+----------Assignment 5_2---------------
+import moment from "moment";
+const currentTime=moment().format("YYYY-MM-DD HH:mm:ss");
+console.log("current time:",currentTime);
+------Assignment 6----------
+
+import {appendFile} from 'fs';
+const logMessage=`App started at ${new Date().toISOString().replace('T',' ').substring(0,19)}\n`;
+appendFile('app.Log',logMessage,(err)=>{
+    if(err) throw err;
+    console.log('Log entry added!');
+});
